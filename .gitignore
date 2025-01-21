@@ -1,0 +1,36 @@
+# .NET Core
+[Dd]ebug/
+[Dd]ebugPublic/
+[Dd]ist/
+[Aa]rtifacts/
+
+# User-specific files
+.idea/
+.vs/
+.vscode/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Build Folders
+bin/
+obj/
+
+# ASP.NET Scaffolding
+Scaffolding/
+
+# Files built by JetBrains Rider
+.idea/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows Installer Logs
+*.log
+
+# User-specific files
+*.swp
