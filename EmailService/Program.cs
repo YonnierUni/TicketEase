@@ -13,7 +13,6 @@ builder.Services.AddTransient<IEmailSenderService, EmailSenderService>();
 // Configure RabbitMQ and MassTransit
 builder.Services.AddMassTransit(config =>
 {
-    config.AddConsumer<TicketPurchasedEventConsumer>();
     config.AddConsumer<TicketAddedEventConsumer>();
 
     config.UsingRabbitMq((context, cfg) =>
@@ -21,7 +20,6 @@ builder.Services.AddMassTransit(config =>
         cfg.Host(builder.Configuration["RabbitMq:Host"]);
         cfg.ReceiveEndpoint(builder.Configuration["RabbitMq:Queue"], e =>
         {
-            e.ConfigureConsumer<TicketPurchasedEventConsumer>(context);
             e.ConfigureConsumer<TicketAddedEventConsumer>(context);
         });
     });

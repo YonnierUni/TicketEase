@@ -1,8 +1,8 @@
 ﻿using MassTransit;
 using TicketEase.Service.TicketPurchase.Entities;
 using TicketEase.Service.TicketPurchase.Repositories;
-using TicketEase.Service.TicketPurchase.Events;
 using TicketEase.Service.TicketPurchase.Models;
+using TicketEase.Common.Events;
 
 namespace TicketEase.Service.TicketPurchase.Services
 {
@@ -55,7 +55,16 @@ namespace TicketEase.Service.TicketPurchase.Services
             };
 
             await _ticketRepository.AddAsync(newTicket);
-            await _publishEndpoint.Publish(new TicketAddedEvent(newTicket));
+
+            // Crear el evento con los datos correspondientes
+            var ticketAddedEvent = new TicketAddedEvent(
+                newTicket.TicketId,
+                newTicket.FunctionId,
+                newTicket.AdditionalPrice,
+                newTicket.UserName
+            );
+
+            await _publishEndpoint.Publish(ticketAddedEvent);
 
             return newTicket;
         }
@@ -69,7 +78,13 @@ namespace TicketEase.Service.TicketPurchase.Services
             }
 
             await _ticketRepository.UpdateAsync(ticket);
-            await _publishEndpoint.Publish(new TicketUpdatedEvent(ticket));
+            var TicketUpdated = new TicketUpdatedEvent(
+                ticket.TicketId,
+                ticket.FunctionId,
+                ticket.AdditionalPrice,
+                ticket.UserName
+            );
+            await _publishEndpoint.Publish(TicketUpdated);
         }
 
         public async Task DeleteTicketAsync(Guid ticketId)

@@ -1,6 +1,10 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace TicketEase.Service.TicketPurchase.Entities
+namespace TicketEase.Common.Models
 {
     public class Ticket
     {
@@ -8,7 +12,5 @@ namespace TicketEase.Service.TicketPurchase.Entities
         public Guid FunctionId { get; set; }
         public decimal AdditionalPrice { get; set; }
         public string UserName { get; set; }
-        [JsonIgnore]
-        public Function Function { get; set; }
     }
 }
