@@ -7,7 +7,7 @@ namespace TicketEase.Service.TicketPurchase.Services
     {
         Task<IEnumerable<Ticket>> GetAllTicketsAsync();
         Task<Ticket> GetTicketByIdAsync(Guid ticketId);
-        Task AddTicketAsync(TicketForCreationDto ticket);
+        Task<Ticket> AddTicketAsync(Ticket ticket);
         Task UpdateTicketAsync(Ticket ticket);
         Task DeleteTicketAsync(Guid ticketId);
         Task<IEnumerable<Ticket>> GetTicketsByFunctionAsync(Guid functionId);

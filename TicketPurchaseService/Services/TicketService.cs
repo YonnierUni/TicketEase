@@ -34,7 +34,7 @@ namespace TicketEase.Service.TicketPurchase.Services
             return ticket;
         }
 
-        public async Task AddTicketAsync(TicketForCreationDto ticket)
+        public async Task<Ticket> AddTicketAsync(Ticket ticket)
         {
             var function = await _functionRepository.GetByIdAsync(ticket.FunctionId);
             if (function == null)
@@ -47,8 +47,17 @@ namespace TicketEase.Service.TicketPurchase.Services
                 throw new ArgumentException("User name cannot be empty.");
             }
 
-            await _ticketRepository.AddAsync(ticket);
-            await _publishEndpoint.Publish(new TicketAddedEvent(ticket));
+            var newTicket = new Ticket
+            {
+                FunctionId = ticket.FunctionId,
+                AdditionalPrice = ticket.AdditionalPrice,
+                UserName = ticket.UserName
+            };
+
+            await _ticketRepository.AddAsync(newTicket);
+            await _publishEndpoint.Publish(new TicketAddedEvent(newTicket));
+
+            return newTicket;
         }
 
         public async Task UpdateTicketAsync(Ticket ticket)

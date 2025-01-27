@@ -31,7 +31,6 @@ namespace TicketEase.Service.TicketPurchase.Controllers
                 TicketId = ticket.TicketId,
                 FunctionId = ticket.FunctionId,
                 AdditionalPrice = ticket.AdditionalPrice,
-                TotalPrice = ticket.TotalPrice,
                 UserName = ticket.UserName
             }).ToList();
 
@@ -51,7 +50,6 @@ namespace TicketEase.Service.TicketPurchase.Controllers
                 TicketId = ticket.TicketId,
                 FunctionId = ticket.FunctionId,
                 AdditionalPrice = ticket.AdditionalPrice,
-                TotalPrice = ticket.TotalPrice,
                 UserName = ticket.UserName
             };
 
@@ -78,7 +76,6 @@ namespace TicketEase.Service.TicketPurchase.Controllers
                 TicketId = createdTicket.TicketId,
                 FunctionId = createdTicket.FunctionId,
                 AdditionalPrice = createdTicket.AdditionalPrice,
-                TotalPrice = createdTicket.TotalPrice,
                 UserName = createdTicket.UserName
             };
 
