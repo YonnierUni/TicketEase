@@ -1,15 +1,30 @@
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using TicketEase.Service.TicketPurchase.DbContexts;
 using TicketEase.Service.TicketPurchase.Repositories;
+using TicketEase.Service.TicketPurchase.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Configure RabbitMQ and MassTransit
+builder.Services.AddMassTransit(config =>
+{
 
+    config.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(builder.Configuration["RabbitMq:Host"]);
+    });
+});
+
+
+// Add services to the container.
+builder.Services.AddMassTransitHostedService();
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IFunctionRepository, FunctionRepository>();
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
+builder.Services.AddScoped<IFunctionService, FunctionService>();
+builder.Services.AddScoped<ITicketService,TicketService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Add DbContext to the container

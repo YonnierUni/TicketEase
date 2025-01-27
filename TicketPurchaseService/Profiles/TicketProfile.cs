@@ -10,6 +10,7 @@ namespace TicketEase.Service.TicketPurchase.Profiles
         {
             CreateMap<Entities.Ticket, Models.TicketDto>()
                 .ForMember(dest => dest.TotalPrice, opts => opts.MapFrom(src => src.Function.Price + src.AdditionalPrice));
+            CreateMap<Ticket, TicketForCreationDto>().ReverseMap();
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TicketEase.Service.Movies.Entities;
 using TicketEase.Service.Movies.Models;
 using TicketEase.Service.Movies.Repositories;
+using TicketEase.Service.Movies.Services;
 
 namespace TicketEase.Service.Movies.Controllers
 {
@@ -10,74 +11,61 @@ namespace TicketEase.Service.Movies.Controllers
     [ApiController]
     public class MovieController : ControllerBase
     {
-        private readonly IMovieRepository _movieRepository;
+        private readonly IMovieService _movieService;
         private readonly IMapper _mapper;
 
-        public MovieController(IMovieRepository movieRepository, IMapper mapper)
+        public MovieController(IMovieService movieService, IMapper mapper)
         {
-            _movieRepository = movieRepository;
+            _movieService = movieService;
             _mapper = mapper;
         }
 
-        // Acción para obtener todas las películas
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MovieDto>>> Get()
         {
-            var movies = await _movieRepository.GetAllMoviesAsync();
-
-            // Mapeamos la lista de entidades Movie a DTOs
-            var movieDtos = _mapper.Map<IEnumerable<MovieDto>>(movies);
-
-            return Ok(movieDtos);
+            var movies = await _movieService.GetAllMoviesAsync();
+            return Ok(movies);
         }
 
-        // Acción para obtener una película por su ID
         [HttpGet("{movieId}")]
         public async Task<ActionResult<MovieDto>> Get(Guid movieId)
         {
-            var movie = await _movieRepository.GetMovieByIdAsync(movieId);
-            if (movie == null)
+            try
+            {
+                var movie = await _movieService.GetMovieByIdAsync(movieId);
+                return Ok(movie);
+            }
+            catch (KeyNotFoundException)
             {
                 return NotFound();
             }
-
-            // Mapeamos la entidad Movie a MovieDto
-            var movieDto = _mapper.Map<MovieDto>(movie);
-
-            return Ok(movieDto);
         }
 
-        // Acción para agregar una nueva película
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] MovieDto movieDto)
         {
-            var movie = _mapper.Map<Movie>(movieDto); // Convertir MovieDto a Movie entidad
-
-            await _movieRepository.AddMovieAsync(movie);
-
-            return CreatedAtAction(nameof(Get), new { movieId = movie.MovieId }, movieDto);
+            await _movieService.AddMovieAsync(movieDto);
+            return CreatedAtAction(nameof(Get), new { movieId = movieDto.MovieId }, movieDto);
         }
 
-        // Acción para actualizar una película
         [HttpPut("{movieId}")]
         public async Task<ActionResult> Put(Guid movieId, [FromBody] MovieDto movieDto)
         {
-            if (movieId != movieDto.MovieId)
+            try
+            {
+                await _movieService.UpdateMovieAsync(movieId, movieDto);
+                return NoContent();
+            }
+            catch (ArgumentException)
             {
                 return BadRequest();
             }
-
-            var movie = _mapper.Map<Movie>(movieDto); // Convertir MovieDto a Movie entidad
-
-            await _movieRepository.UpdateMovieAsync(movie);
-            return NoContent();
         }
 
-        // Acción para eliminar una película
         [HttpDelete("{movieId}")]
         public async Task<ActionResult> Delete(Guid movieId)
         {
-            await _movieRepository.DeleteMovieAsync(movieId);
+            await _movieService.DeleteMovieAsync(movieId);
             return NoContent();
         }
     }

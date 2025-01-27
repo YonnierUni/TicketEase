@@ -7,5 +7,4 @@
         public decimal AdditionalPrice { get; set; }
         public string UserName { get; set; }
         public Function Function { get; set; }
-    }
 }

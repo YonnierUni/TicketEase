@@ -3,6 +3,7 @@ using TicketEase.Service.TicketPurchase.Entities;
 using TicketEase.Service.TicketPurchase.Models;
 using TicketEase.Service.TicketPurchase.Repositories;
 using AutoMapper;
+using TicketEase.Service.TicketPurchase.Services;
 
 namespace TicketEase.Service.TicketPurchase.Controllers
 {
@@ -10,59 +11,93 @@ namespace TicketEase.Service.TicketPurchase.Controllers
     [ApiController]
     public class TicketController : ControllerBase
     {
-        private readonly ITicketRepository _ticketRepository;
-        private readonly IMapper _mapper;
+        private readonly ITicketService _ticketService;
 
-        public TicketController(ITicketRepository ticketRepository, IMapper mapper)
+        public TicketController(ITicketService ticketService)
         {
-            _ticketRepository = ticketRepository;
-            _mapper = mapper;
+            _ticketService = ticketService;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TicketDto>>> GetAllTickets()
         {
-            var tickets = await _ticketRepository.GetAllAsync();
-            return Ok(_mapper.Map<IEnumerable<TicketDto>>(tickets));
+            var tickets = await _ticketService.GetAllTicketsAsync();
+
+            if (tickets == null || !tickets.Any())
+                return NoContent();
+
+            var ticketDtos = tickets.Select(ticket => new TicketDto
+            {
+                TicketId = ticket.TicketId,
+                FunctionId = ticket.FunctionId,
+                AdditionalPrice = ticket.AdditionalPrice,
+                TotalPrice = ticket.TotalPrice,
+                UserName = ticket.UserName
+            }).ToList();
+
+            return Ok(ticketDtos);
         }
 
         [HttpGet("{id:Guid}", Name = "GetTicketById")]
         public async Task<ActionResult<TicketDto>> GetTicketById(Guid id)
         {
-            var ticket = await _ticketRepository.GetByIdAsync(id);
+            var ticket = await _ticketService.GetTicketByIdAsync(id);
 
             if (ticket == null)
-                return NotFound();
+                return NotFound(new { message = $"Ticket with ID {id} not found." });
 
-            return Ok(_mapper.Map<TicketDto>(ticket));
+            var ticketDto = new TicketDto
+            {
+                TicketId = ticket.TicketId,
+                FunctionId = ticket.FunctionId,
+                AdditionalPrice = ticket.AdditionalPrice,
+                TotalPrice = ticket.TotalPrice,
+                UserName = ticket.UserName
+            };
+
+            return Ok(ticketDto);
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateTicket([FromBody] TicketForCreationDto ticketForCreation)
+        public async Task<ActionResult> AddTicket([FromBody] TicketForCreationDto ticketDto)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                return BadRequest(new { message = "Invalid model data.", errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
 
-            var ticketEntity = _mapper.Map<Ticket>(ticketForCreation);
-            await _ticketRepository.AddAsync(ticketEntity);
+            var ticket = new Ticket
+            {
+                FunctionId = ticketDto.FunctionId,
+                AdditionalPrice = ticketDto.AdditionalPrice,
+                UserName = ticketDto.UserName
+            };
 
-            var ticketToReturn = _mapper.Map<TicketDto>(ticketEntity);
+            var createdTicket = await _ticketService.AddTicketAsync(ticket);
 
-            return CreatedAtRoute("GetTicketById", new { id = ticketToReturn.TicketId }, ticketToReturn);
+            var createdTicketDto = new TicketDto
+            {
+                TicketId = createdTicket.TicketId,
+                FunctionId = createdTicket.FunctionId,
+                AdditionalPrice = createdTicket.AdditionalPrice,
+                TotalPrice = createdTicket.TotalPrice,
+                UserName = createdTicket.UserName
+            };
+
+            return CreatedAtRoute("GetTicketById", new { id = createdTicket.TicketId }, createdTicketDto);
         }
 
         [HttpPut("{id:Guid}")]
-        public async Task<ActionResult> UpdateTicket(Guid id, [FromBody] TicketForUpdateDto ticketForUpdate)
+        public async Task<ActionResult> UpdateTicket(Guid id, [FromBody] TicketForUpdateDto ticketDto)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                return BadRequest(new { message = "Invalid model data.", errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
 
-            var ticketEntity = await _ticketRepository.GetByIdAsync(id);
-            if (ticketEntity == null)
-                return NotFound();
+            var existingTicket = await _ticketService.GetTicketByIdAsync(id);
+            if (existingTicket == null)
+                return NotFound(new { message = $"Ticket with ID {id} not found." });
 
-            _mapper.Map(ticketForUpdate, ticketEntity);
-            await _ticketRepository.UpdateAsync(ticketEntity);
+            existingTicket.UserName = ticketDto.UserName;
+
+            await _ticketService.UpdateTicketAsync(existingTicket);
 
             return NoContent();
         }
@@ -70,34 +105,52 @@ namespace TicketEase.Service.TicketPurchase.Controllers
         [HttpDelete("{id:Guid}")]
         public async Task<ActionResult> DeleteTicket(Guid id)
         {
-            var ticket = await _ticketRepository.GetByIdAsync(id);
-            if (ticket == null)
-                return NotFound();
+            var ticket = await _ticketService.GetTicketByIdAsync(id);
 
-            await _ticketRepository.DeleteAsync(id);
+            if (ticket == null)
+                return NotFound(new { message = $"Ticket with ID {id} not found." });
+
+            await _ticketService.DeleteTicketAsync(id);
+
             return NoContent();
         }
 
         [HttpGet("function/{functionId:Guid}")]
         public async Task<ActionResult<IEnumerable<TicketDto>>> GetTicketsByFunctionId(Guid functionId)
         {
-            var tickets = await _ticketRepository.GetTicketsByFunctionIdAsync(functionId);
+            var tickets = await _ticketService.GetTicketsByFunctionAsync(functionId);
 
-            if (tickets == null || !tickets.Any())
-                return NotFound();
+            if (!tickets.Any())
+                return NotFound(new { message = $"No tickets found for function with ID {functionId}." });
 
-            return Ok(_mapper.Map<IEnumerable<TicketDto>>(tickets));
+            var ticketDtos = tickets.Select(ticket => new TicketDto
+            {
+                TicketId = ticket.TicketId,
+                FunctionId = ticket.FunctionId,
+                AdditionalPrice = ticket.AdditionalPrice,
+                UserName = ticket.UserName
+            }).ToList();
+
+            return Ok(ticketDtos);
         }
 
         [HttpGet("user/{userName}")]
-        public async Task<ActionResult<IEnumerable<TicketDto>>> GetTicketsByUserNameAsync(string userName)
+        public async Task<ActionResult<IEnumerable<TicketDto>>> GetTicketsByUserName(string userName)
         {
-            var tickets = await _ticketRepository.GetTicketsByUserNameAsync(userName);
+            var tickets = await _ticketService.GetTicketsByUserAsync(userName);
 
-            if (tickets == null || !tickets.Any())
-                return NotFound();
+            if (!tickets.Any())
+                return NotFound(new { message = $"No tickets found for user {userName}." });
 
-            return Ok(_mapper.Map<IEnumerable<TicketDto>>(tickets));
+            var ticketDtos = tickets.Select(ticket => new TicketDto
+            {
+                TicketId = ticket.TicketId,
+                FunctionId = ticket.FunctionId,
+                AdditionalPrice = ticket.AdditionalPrice,
+                UserName = ticket.UserName
+            }).ToList();
+
+            return Ok(ticketDtos);
         }
     }
 }

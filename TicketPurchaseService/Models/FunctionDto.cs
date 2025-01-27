@@ -14,6 +14,8 @@
     }
     public class FunctionForUpdateDto
     {
+        public Guid FunctionId { get; set; }
+
         public decimal Price { get; set; }
         public DateTime FunctionDate { get; set; }
     }

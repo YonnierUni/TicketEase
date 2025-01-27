@@ -24,9 +24,9 @@ namespace TicketEase.Service.TicketPurchase.DbContexts
             modelBuilder.Entity<Function>().HasData(new Function
             {
                 FunctionId = function1Id,
-                MovieId = Guid.Parse("7A573BF8-D473-4291-B221-B39B7CA415C9"), // Placeholder for movie ID
+                MovieId = Guid.Parse("7A573BF8-D473-4291-B221-B39B7CA415C9"),
                 Price = 50.00m,
-                FunctionDate = new DateTime(2025, 3, 1) // Fecha fija
+                FunctionDate = new DateTime(2025, 3, 1)
             });
 
             modelBuilder.Entity<Function>().HasData(new Function
@@ -34,7 +34,7 @@ namespace TicketEase.Service.TicketPurchase.DbContexts
                 FunctionId = function2Id,
                 MovieId = Guid.Parse("D12F5F9E-05A3-4742-8ECF-174C4AE57527"),
                 Price = 65.00m,
-                FunctionDate = new DateTime(2025, 4, 1) // Fecha fija
+                FunctionDate = new DateTime(2025, 4, 1)
             });
 
             modelBuilder.Entity<Ticket>().HasData(new Ticket

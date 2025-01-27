@@ -7,6 +7,8 @@ namespace TicketEase.Service.TicketPurchase.Profiles
         public FunctionProfile()
         {
             CreateMap<Entities.Function, Models.FunctionDto>().ReverseMap();
+            CreateMap<Entities.Function, Models.FunctionForCreationDto>().ReverseMap();
+
         }
     }
 }

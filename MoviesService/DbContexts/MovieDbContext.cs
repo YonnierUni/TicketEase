@@ -16,7 +16,6 @@ namespace TicketEase.Service.Movies.DbContexts
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configuración de datos iniciales de películas
             modelBuilder.Entity<Movie>().HasData(new Movie
             {
                 MovieId = Guid.Parse("7A573BF8-D473-4291-B221-B39B7CA415C9"),

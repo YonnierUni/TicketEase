@@ -1,14 +1,28 @@
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using TicketEase.Service.Movies.DbContexts;
 using TicketEase.Service.Movies.Repositories;
+using TicketEase.Service.Movies.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Configure RabbitMQ and MassTransit
+builder.Services.AddMassTransit(config =>
+{
 
+    config.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(builder.Configuration["RabbitMq:Host"]);
+    });
+});
+
+
+// Add services to the container.
+builder.Services.AddMassTransitHostedService();
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Add DbContext to the container

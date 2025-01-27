@@ -24,16 +24,18 @@ namespace TicketEase.Service.TicketPurchase.Repositories
             return await _ticketPurchaseDbContext.Functions.FindAsync(functionId);
         }
 
-        public async Task AddAsync(Function function)
+        public async Task<Function> AddAsync(Function function)
         {
             _ticketPurchaseDbContext.Functions.Add(function);
             await _ticketPurchaseDbContext.SaveChangesAsync();
+            return function;
         }
 
-        public async Task UpdateAsync(Function function)
+        public async Task<Function> UpdateAsync(Function function)
         {
             _ticketPurchaseDbContext.Functions.Update(function);
             await _ticketPurchaseDbContext.SaveChangesAsync();
+            return function;
         }
 
         public async Task DeleteAsync(Guid functionId)
