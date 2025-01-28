@@ -1,5 +1,6 @@
 export const environment = {
     production: false,
-    apiBaseUrl: 'http://localhost:8080/api' // La URL de tu API Gateway
+    apiBaseUrl: 'https://localhost', // La URL de tu API Gateway
+    email:"uniyonnier@gmail.com"
   };
   

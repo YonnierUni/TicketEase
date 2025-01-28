@@ -16,4 +16,9 @@
     public class TicketForUpdateDto {
         public string UserName { get; set; }
     }
+    public class CancelTicketsDto
+    {
+        public List<Guid> TicketIds { get; set; } = new List<Guid>();
+    }
+
 }

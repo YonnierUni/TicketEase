@@ -6,6 +6,15 @@ using TicketEase.Service.Movies.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Enable CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost", policy =>
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod());
+});
+
 // Configure RabbitMQ and MassTransit
 builder.Services.AddMassTransit(config =>
 {
@@ -34,6 +43,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseCors("AllowLocalhost");
 
 using (var scope = app.Services.CreateScope())
 {

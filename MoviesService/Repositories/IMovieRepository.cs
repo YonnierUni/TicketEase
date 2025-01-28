@@ -6,6 +6,8 @@ namespace TicketEase.Service.Movies.Repositories
     {
         Task<IEnumerable<Movie>> GetAllMoviesAsync();
         Task<Movie> GetMovieByIdAsync(Guid movieId);
+        Task<IEnumerable<Movie>> GetMoviesByIdsAsync(List<Guid> movieIds);
+
         Task AddMovieAsync(Movie movie);
         Task UpdateMovieAsync(Movie movie);
         Task DeleteMovieAsync(Guid movieId);

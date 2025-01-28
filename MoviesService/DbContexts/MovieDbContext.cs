@@ -24,7 +24,7 @@ namespace TicketEase.Service.Movies.DbContexts
                 Genre = "Action",
                 Director = "Anthony Russo, Joe Russo",
                 Cast = "Robert Downey Jr., Chris Evans, Scarlett Johansson",
-                PosterImage = "endgame.jpg"
+                PosterImage = "https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_FMjpg_UX1000_.jpg"
             });
 
             modelBuilder.Entity<Movie>().HasData(new Movie
@@ -35,7 +35,7 @@ namespace TicketEase.Service.Movies.DbContexts
                 Genre = "Action, Sci-Fi",
                 Director = "Jon Watts",
                 Cast = "Tom Holland, Zendaya, Benedict Cumberbatch",
-                PosterImage = "spiderman_no_way_home.jpg"
+                PosterImage = "https://m.media-amazon.com/images/M/MV5BMmFiZGZjMmEtMTA0Ni00MzA2LTljMTYtZGI2MGJmZWYzZTQ2XkEyXkFqcGc@._V1_.jpg"
             });
         }
     }

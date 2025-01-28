@@ -36,7 +36,11 @@ namespace TicketEase.Service.Movies.Services
 
             return _mapper.Map<MovieDto>(movie);
         }
-
+        public async Task<IEnumerable<MovieDto>> GetMoviesByIdsAsync(List<Guid> movieIds)
+        {
+            var movies = await _movieRepository.GetMoviesByIdsAsync(movieIds);
+            return _mapper.Map<IEnumerable<MovieDto>>(movies);
+        }
         public async Task AddMovieAsync(MovieDto movieDto)
         {
             var movie = _mapper.Map<Movie>(movieDto);

@@ -9,7 +9,7 @@ import { MovieDto } from '../models/movie.model';
 })
 export class MovieService {
 
-  private apiUrl = `${environment.apiBaseUrl}/api/movies`;
+  private apiUrl = `${environment.apiBaseUrl}:7231/api/movies`;
 
   constructor(private http: HttpClient) { }
 
@@ -17,8 +17,8 @@ export class MovieService {
     return this.http.get<MovieDto[]>(this.apiUrl);
   }
 
-  getMovieById(movieId: string): Observable<MovieDto> {
-    return this.http.get<MovieDto>(`${this.apiUrl}/${movieId}`);
+  getMoviesByIds(movieIds: string[]): Observable<any> {
+    return this.http.post(`${this.apiUrl}/getMoviesByIds`, movieIds);
   }
 
   createMovie(movieData: MovieDto): Observable<MovieDto> {

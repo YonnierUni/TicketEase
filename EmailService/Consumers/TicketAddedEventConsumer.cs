@@ -23,7 +23,7 @@ namespace TicketEase.Service.Email.Consumers
             var emailBody = $"Ticket ID {ticket.TicketId} added: {ticket.UserName} purchased a ticket for function {ticket.FunctionId}\nPrecio adicional: {ticket.AdditionalPrice}.";
 
             // Usar un servicio de envío de correos para enviar el correo
-            await _emailService.SendEmailAsync(ticket.UserName, emailSubject, emailBody);
+            //await _emailService.SendEmailAsync(ticket.UserName, emailSubject, emailBody);
         }
     }
 }

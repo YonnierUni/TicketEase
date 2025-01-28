@@ -68,7 +68,45 @@ namespace TicketEase.Service.TicketPurchase.Services
 
             return newTicket;
         }
+        public async Task AddMultipleTicketsAsync(IEnumerable<TicketForCreationDto> tickets)
+        {
+            List<TicketItem> ticketItems = new List<TicketItem>();
 
+            foreach (var ticket in tickets)
+            {
+                var function = await _functionRepository.GetByIdAsync(ticket.FunctionId);
+                if (function == null)
+                {
+                    throw new ArgumentException("The function associated with the ticket does not exist.");
+                }
+
+                if (string.IsNullOrEmpty(ticket.UserName))
+                {
+                    throw new ArgumentException("User name cannot be empty.");
+                }
+
+                var newTicket = new Ticket
+                {
+                    FunctionId = ticket.FunctionId,
+                    AdditionalPrice = ticket.AdditionalPrice,
+                    UserName = ticket.UserName
+                };
+
+                await _ticketRepository.AddAsync(newTicket);
+
+                // Crear un objeto TicketItem para agregar a la lista
+                ticketItems.Add(new TicketItem(
+                    newTicket.TicketId,
+                    newTicket.FunctionId,
+                    newTicket.AdditionalPrice,
+                    newTicket.UserName
+                ));
+            }
+
+            // Publicar el evento TicketsPurchasedEvent con los datos de todos los tickets agregados
+            var ticketsPurchasedEvent = new TicketsPurchasedEvent(ticketItems);
+            await _publishEndpoint.Publish(ticketsPurchasedEvent);
+        }
         public async Task UpdateTicketAsync(Ticket ticket)
         {
             var existingTicket = await _ticketRepository.GetByIdAsync(ticket.TicketId);
@@ -98,7 +136,33 @@ namespace TicketEase.Service.TicketPurchase.Services
             await _ticketRepository.DeleteAsync(ticketId);
             await _publishEndpoint.Publish(new TicketDeletedEvent(ticketId));
         }
+        public async Task DeleteMultipleTicketsAsync(IEnumerable<Guid> ticketIds)
+        {
+            List<TicketItem> ticketItems = new List<TicketItem>();
 
+            foreach (var ticketId in ticketIds)
+            {
+                var ticket = await _ticketRepository.GetByIdAsync(ticketId);
+                if (ticket == null)
+                {
+                    throw new ArgumentException($"Ticket with ID {ticketId} not found.");
+                }
+
+                await _ticketRepository.DeleteAsync(ticketId);
+
+                // Crear un objeto TicketItem para agregar a la lista
+                ticketItems.Add(new TicketItem(
+                    ticket.TicketId,
+                    ticket.FunctionId,
+                    ticket.AdditionalPrice,
+                    ticket.UserName
+                ));
+            }
+
+            // Publicar el evento TicketCancelledEvent con los tickets eliminados
+            var ticketsCancelledEvent = new TicketsCancelledEvent(ticketItems);
+            await _publishEndpoint.Publish(ticketsCancelledEvent);
+        }
         public async Task<IEnumerable<Ticket>> GetTicketsByFunctionAsync(Guid functionId)
         {
             return await _ticketRepository.GetTicketsByFunctionIdAsync(functionId);

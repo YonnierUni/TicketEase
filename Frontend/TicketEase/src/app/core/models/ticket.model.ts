@@ -16,3 +16,15 @@ export interface TicketDto {
     userName: string;
   }
   
+  export interface TicketWithDetailsDto {
+    functionId: string;
+    ticketId: string;
+    movieName: string;
+    functionRoom: string;
+    startTime: Date;
+    ticketQuantity: number;
+  }
+  export interface CancelTicketsRequest {
+    ticketIds: string[];
+  }
+  

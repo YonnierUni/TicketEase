@@ -36,7 +36,22 @@ namespace TicketEase.Service.Functions.Services
 
             return _mapper.Map<MovieFunctionDto>(function);
         }
+        public async Task<IEnumerable<MovieFunctionDto>> GetFunctionsByMovieIdAsync(Guid movieId)
+        {
+            // Obtén las funciones relacionadas con el movieId del repositorio
+            var functions = await _repository.GetFunctionsByMovieIdAsync(movieId);
 
+            // Mapea las funciones a la clase DTO y devuélvelas
+            return _mapper.Map<IEnumerable<MovieFunctionDto>>(functions);
+        }
+        public async Task<IEnumerable<MovieFunctionDto>> GetFunctionsByIdsAsync(IEnumerable<Guid> ids)
+        {
+            // Consulta las funciones por sus IDs desde el repositorio
+            var functions = await _repository.GetFunctionsByIdsAsync(ids);
+
+            // Mapea las funciones a la clase DTO y las retorna
+            return _mapper.Map<IEnumerable<MovieFunctionDto>>(functions);
+        }
         public async Task AddFunctionAsync(MovieFunctionDto functionDto)
         {
             var function = _mapper.Map<MovieFunction>(functionDto);

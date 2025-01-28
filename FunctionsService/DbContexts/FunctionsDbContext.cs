@@ -38,6 +38,50 @@ namespace TicketEase.Service.Functions.DbContexts
                 TotalSeats = 150,
                 AvailableSeats = 150
             });
+
+            modelBuilder.Entity<MovieFunction>().HasData(new MovieFunction
+            {
+                MovieFunctionId = Guid.Parse("3B0D79FF-A7E0-4D40-B594-44A49F380634"),
+                MovieId = Guid.Parse("7A573BF8-D473-4291-B221-B39B7CA415C9"),
+                Room = "Room 1",
+                StartTime = new DateTime(2025, 1, 25, 11, 0, 0),
+                EndTime = new DateTime(2025, 1, 25, 13, 30, 0),
+                TotalSeats = 100,
+                AvailableSeats = 100
+            });
+
+            modelBuilder.Entity<MovieFunction>().HasData(new MovieFunction
+            {
+                MovieFunctionId = Guid.Parse("57C843B9-B8B0-493C-BD99-6497AA1EEC1A"),
+                MovieId = Guid.Parse("7A573BF8-D473-4291-B221-B39B7CA415C9"),
+                Room = "Room 1",
+                StartTime = new DateTime(2025, 1, 25, 13, 30, 0),
+                EndTime = new DateTime(2025, 1, 25, 16, 0, 0),
+                TotalSeats = 100,
+                AvailableSeats = 100
+            });
+
+            modelBuilder.Entity<MovieFunction>().HasData(new MovieFunction
+            {
+                MovieFunctionId = Guid.Parse("6E8B819F-76C2-402F-AABA-3FBA1A79A06D"),
+                MovieId = Guid.Parse("7A573BF8-D473-4291-B221-B39B7CA415C9"),
+                Room = "Room 1",
+                StartTime = new DateTime(2025, 1, 25, 16, 30, 0),
+                EndTime = new DateTime(2025, 1, 25, 19, 0, 0),
+                TotalSeats = 100,
+                AvailableSeats = 100
+            });
+
+            modelBuilder.Entity<MovieFunction>().HasData(new MovieFunction
+            {
+                MovieFunctionId = Guid.Parse("9A271081-4581-43B9-B97D-1419DB615F43"),
+                MovieId = Guid.Parse("7A573BF8-D473-4291-B221-B39B7CA415C9"),
+                Room = "Room 1",
+                StartTime = new DateTime(2025, 1, 25, 21, 45, 0),
+                EndTime = new DateTime(2025, 1, 25, 23, 45, 0),
+                TotalSeats = 100,
+                AvailableSeats = 100
+            });
         }
     }
 }

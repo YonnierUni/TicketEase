@@ -1,1 +1,49 @@
-<p>tickets works!</p>
+<div class="purchased-tickets-container">
+  <h3 *ngIf="purchasedTickets.length > 0">Tickets Comprados</h3>
+
+  <div *ngIf="isLoading">
+    <p>Cargando boletos...</p>
+  </div>
+
+  <div *ngIf="!isLoading && purchasedTickets.length === 0" class="no-tickets">
+    <p>No has comprado boletos aún.</p>
+  </div>
+
+  <div *ngIf="purchasedTickets.length > 0" class="ticket-list">
+    <div class="ticket-card" *ngFor="let ticket of purchasedTickets">
+      <div class="ticket-card-details">
+        <h4>{{ ticket.movieName }}</h4>
+        <p><strong>Función:</strong> {{ ticket.functionRoom }}</p>
+        <p><strong>Horario:</strong> {{ ticket.startTime | date : "short" }}</p>
+        <p><strong>Cantidad de Boletos:</strong> {{ ticket.ticketQuantity }}</p>
+      </div>
+      <div class="ticket-card-footer">
+        <button class="action-button" (click)="viewTicketDetails(ticket)">
+          Ver Detalles
+        </button>
+        <button class="action-button cancel" (click)="cancelTicket(ticket)">
+          Cancelar Ticket
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" *ngIf="selectedTicket" (click)="closeModal()"></div>
+  <!-- Modal para mostrar detalles -->
+  <div class="modal" *ngIf="selectedTicket">
+    <div class="modal-content">
+      <h3>Detalles del Ticket</h3>
+      <p><strong>Película:</strong> {{ selectedTicket.movieName }}</p>
+      <p><strong>Sala:</strong> {{ selectedTicket.functionRoom }}</p>
+      <p>
+        <strong>Horario:</strong>
+        {{ selectedTicket.startTime | date : "short" }}
+      </p>
+      <p>
+        <strong>Cantidad de Boletos:</strong>
+        {{ selectedTicket.ticketQuantity }}
+      </p>
+      <button class="close-button" (click)="closeModal()">Cerrar</button>
+    </div>
+  </div>
+</div>

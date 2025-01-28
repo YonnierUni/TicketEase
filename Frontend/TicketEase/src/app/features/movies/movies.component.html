@@ -1,1 +1,36 @@
-<p>movies works!</p>
+<!-- src/app/features/movies/movies.component.html -->
+<div *ngIf="!selectedMovie">
+  <h1>Movies</h1>
+  <div class="movie-thumbnails">
+    <div
+      *ngFor="let movie of movies"
+      class="movie-card"
+      (click)="selectMovie(movie)"
+    >
+      <img
+        class="movie-poster"
+        [src]="movie.posterImage"
+        alt="{{ movie.title }}"
+      />
+      <h3>{{ movie.title }}</h3>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="selectedMovie" class="movie-details">
+  <button (click)="closeFunctions()">Close</button>
+  <div class="movie-content">
+    <img
+      class="movie-poster"
+      [src]="selectedMovie.posterImage"
+      alt="{{ selectedMovie.title }}"
+    />
+    <h2>{{ selectedMovie.title }}</h2>
+    <p><strong>Genre:</strong> {{ selectedMovie.genre }}</p>
+    <p><strong>Director:</strong> {{ selectedMovie.director }}</p>
+    <p><strong>Cast:</strong> {{ selectedMovie.cast }}</p>
+    <p><strong>Year:</strong> {{ selectedMovie.year }}</p>
+
+    <app-functions [movieId]="selectedMovieId"></app-functions>
+  </div>
+</div>

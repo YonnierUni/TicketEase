@@ -1,0 +1,211 @@
+/* Contenedor principal */
+.purchased-tickets-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 15px;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: auto;
+  animation: fadeInUp 1s ease-out;
+}
+
+/* Título principal */
+.purchased-tickets-container h3 {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Mensaje cuando no hay tickets */
+.no-tickets {
+  text-align: center;
+  background-color: #ffe6e6;
+  color: #b30000;
+  border: 1px solid #ffb3b3;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  animation: bounceIn 0.8s ease-in-out;
+}
+
+/* Lista de boletos */
+.ticket-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 10px;
+}
+
+/* Tarjeta individual de boleto */
+.ticket-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  text-align: left;
+  opacity: 0; /* Animación inicial */
+  animation: fadeInUpCard 1s ease-out forwards; /* Aplica animación */
+}
+
+.ticket-card:nth-child(odd) {
+  animation-delay: 0.2s; /* Retraso para animaciones alternadas */
+}
+
+.ticket-card:nth-child(even) {
+  animation-delay: 0.4s;
+}
+
+/* Hover para las tarjetas */
+.ticket-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
+  background-color: #f0f8ff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+/* Detalles del ticket */
+.ticket-card-details h4 {
+  font-size: 1.4rem;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+.ticket-card-details p {
+  font-size: 1rem;
+  color: #666;
+  margin: 5px 0;
+}
+
+.ticket-card-details strong {
+  color: #333;
+}
+
+.action-button:hover {
+  background-color: #0056b3;
+}
+
+.action-button {
+  padding: 8px 12px;
+  margin-right: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  transition: background-color 0.3s;
+}
+
+.action-button.cancel {
+  background-color: #dc3545;
+}
+
+.action-button:hover {
+  background-color: #0056b3;
+}
+
+.action-button.cancel:hover {
+  background-color: #c82333;
+}
+/* Modal backdrop con desenfoque */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8); /* Fondo claro y translúcido */
+  backdrop-filter: blur(5px); /* Desenfoque de fondo */
+  z-index: 998; /* Queda debajo del modal */
+  transition: background-color 0.5s ease, opacity 0.5s ease; /* Suavizado */
+}
+
+/* Modal (contenedor principal sin desenfoque) */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000; /* Asegura que esté por encima del backdrop */
+  width: 80%;
+  max-width: 500px;
+  background-color: white; /* Fondo blanco para el modal */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  animation: modalFadeIn 0.5s ease-out;
+
+}
+
+/* Modal content (contenedor de contenido del modal) */
+.modal-content {
+  position: relative;
+  z-index: 1001; /* Asegura que el contenido del modal esté por encima */
+  padding: 20px;
+}
+
+/* Botón cerrar */
+.close-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  float: right;
+  margin: 20px;
+}
+
+.close-button:hover {
+  background-color: #c82333;
+}
+
+
+/* Animaciones */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  60% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeInUpCard {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modalFadeIn {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -60%) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TicketEase.Service.TicketPurchase.DbContexts;
 
@@ -11,9 +12,11 @@ using TicketEase.Service.TicketPurchase.DbContexts;
 namespace TicketEase.Service.TicketPurchase.Migrations
 {
     [DbContext(typeof(TicketPurchaseDbContext))]
-    partial class TicketPurchaseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250128004823_addfunctionsimilar")]
+    partial class addfunctionsimilar
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

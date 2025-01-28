@@ -49,6 +49,48 @@ namespace TicketEase.Service.Functions.Controllers
             }
         }
 
+        [HttpPost("ids")]
+        public async Task<IActionResult> GetFunctionsByIds([FromBody] IEnumerable<Guid> ids)
+        {
+            try
+            {
+                if (ids == null || !ids.Any())
+                {
+                    return BadRequest(new { message = "Se deben proporcionar los IDs de las funciones." });
+                }
+
+                var functions = await _service.GetFunctionsByIdsAsync(ids);
+                if (functions == null || !functions.Any())
+                {
+                    return NotFound(new { message = "No se encontraron funciones con los IDs proporcionados." });
+                }
+
+                return Ok(functions); // Devuelve las funciones encontradas
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error al obtener las funciones", error = ex.Message });
+            }
+        }
+
+        // GET api/functions/movie/{movieId}
+        [HttpGet("movie/{movieId}")]
+        public async Task<IActionResult> GetFunctionsByMovieId(Guid movieId)
+        {
+            try
+            {
+                var functions = await _service.GetFunctionsByMovieIdAsync(movieId);
+                if (functions == null || !functions.Any())
+                {
+                    return NotFound(new { message = $"No se encontraron funciones para la película con ID {movieId}" });
+                }
+                return Ok(functions);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error al obtener las funciones de la película", error = ex.Message });
+            }
+        }
         [HttpPost]
         public async Task<IActionResult> AddFunction([FromBody] MovieFunctionDto functionDto)
         {

@@ -1,0 +1,101 @@
+/* Contenedor principal */
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f6f9;
+    min-height: 100%;
+    margin-top: 10%;
+    }
+  
+  /* Sección de bienvenida */
+  .welcome-section {
+    background: linear-gradient(135deg, #007bff, #00c6ff);
+    color: white;
+    padding: 60px 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 800px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  /* Título principal */
+  .welcome-section h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    animation: fadeInUp 1s ease-out;
+  }
+  
+  /* Texto de bienvenida */
+  .welcome-section p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: rgba(255, 255, 255, 0.8);
+    animation: fadeInUp 1s ease-out 0.5s;
+  }
+  
+  /* Enlace para funciones, con estilo creativo */
+  .btn-view-functions {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #fff;
+    color: #007bff;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transform: scale(1);
+    transition: all 0.3s ease;
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .btn-view-functions:hover {
+    background-color: #007bff;
+    color: #fff;
+    transform: scale(1.1);
+    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Estilo para los enlaces en la segunda sección */
+  .links ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .links li {
+    margin: 12px 0;
+  }
+  
+  .links a {
+    font-size: 1.1rem;
+    color: #333;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 30px;
+    background-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .links a:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

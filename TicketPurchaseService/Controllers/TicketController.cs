@@ -56,7 +56,7 @@ namespace TicketEase.Service.TicketPurchase.Controllers
             return Ok(ticketDto);
         }
 
-        [HttpPost]
+        [HttpPost("addTicket")]
         public async Task<ActionResult> AddTicket([FromBody] TicketForCreationDto ticketDto)
         {
             if (!ModelState.IsValid)
@@ -80,6 +80,19 @@ namespace TicketEase.Service.TicketPurchase.Controllers
             };
 
             return CreatedAtRoute("GetTicketById", new { id = createdTicket.TicketId }, createdTicketDto);
+        }
+        [HttpPost("addMultipleTickets")]
+        public async Task<ActionResult> AddTickets([FromBody] List<TicketForCreationDto> ticketDtos)
+        {
+            // Validar el modelo
+            if (!ModelState.IsValid)
+                return BadRequest(new { message = "Invalid model data.", errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+
+            // Llamar al servicio para crear múltiples tickets de una vez
+            await _ticketService.AddMultipleTicketsAsync(ticketDtos);
+
+            return Ok(new { message = "Tickets created successfully." });
+
         }
 
         [HttpPut("{id:Guid}")]
@@ -110,6 +123,17 @@ namespace TicketEase.Service.TicketPurchase.Controllers
             await _ticketService.DeleteTicketAsync(id);
 
             return NoContent();
+        }
+        [HttpPost("cancelTickets")]
+        public async Task<ActionResult> CancelTickets([FromBody] CancelTicketsDto cancelTicketsDto)
+        {
+            if (cancelTicketsDto == null || cancelTicketsDto.TicketIds == null || !cancelTicketsDto.TicketIds.Any())
+                return BadRequest(new { message = "No valid ticket information provided." });
+
+            // Llamar al servicio para eliminar los tickets
+            await _ticketService.DeleteMultipleTicketsAsync(cancelTicketsDto.TicketIds);
+
+            return Ok(new { message = "Tickets canceled successfully." });
         }
 
         [HttpGet("function/{functionId:Guid}")]

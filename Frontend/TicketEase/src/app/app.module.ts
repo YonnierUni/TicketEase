@@ -7,6 +7,10 @@ import { AppComponent } from './app.component';
 import { TicketsComponent } from './features/tickets/tickets.component';
 import { FunctionsComponent } from './features/functions/functions.component';
 import { MoviesComponent } from './features/movies/movies.component';
+import { provideHttpClient  } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { HomeComponent } from './features/home/home.component';
 
 @NgModule({
   declarations: [
@@ -14,12 +18,17 @@ import { MoviesComponent } from './features/movies/movies.component';
     TicketsComponent,
     FunctionsComponent,
     MoviesComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule, 
+    FormsModule,
+    CommonModule
   ],
-  providers: [],
+  providers: [
+    provideHttpClient(),
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

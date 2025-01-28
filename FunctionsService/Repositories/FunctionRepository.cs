@@ -1,6 +1,7 @@
 ﻿using TicketEase.Service.Functions.DbContexts;
 using TicketEase.Service.Functions.Entities;
 using Microsoft.EntityFrameworkCore;
+using MassTransit;
 
 namespace TicketEase.Service.Functions.Repositories
 {
@@ -22,7 +23,20 @@ namespace TicketEase.Service.Functions.Repositories
         {
             return await _context.MovieFunctions.FindAsync(id);
         }
-
+        public async Task<IEnumerable<MovieFunction>> GetFunctionsByMovieIdAsync(Guid movieId)
+        {
+            // Realiza la consulta al DbContext para obtener las funciones por el movieId
+            return await _context.MovieFunctions
+                                   .Where(f => f.MovieId == movieId)
+                                   .ToListAsync();
+        }
+        public async Task<IEnumerable<MovieFunction>> GetFunctionsByIdsAsync(IEnumerable<Guid> ids)
+        {
+            // Obtiene todas las funciones cuyos IDs se encuentran en la lista proporcionada
+            return await _context.MovieFunctions
+                                 .Where(f => ids.Contains(f.MovieFunctionId))
+                                 .ToListAsync();
+        }
         public async Task AddFunctionAsync(MovieFunction function)
         {
             _context.MovieFunctions.Add(function);

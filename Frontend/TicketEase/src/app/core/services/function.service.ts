@@ -9,7 +9,7 @@ import { FunctionMovieDto } from '../models/functionMovie.model';
 })
 export class FunctionService {
 
-  private apiUrl = `${environment.apiBaseUrl}/api/functions`;
+  private apiUrl = `${environment.apiBaseUrl}:7014/api/functions`;
 
   constructor(private http: HttpClient) { }
 
@@ -21,6 +21,14 @@ export class FunctionService {
     return this.http.get<FunctionMovieDto>(`${this.apiUrl}/${functionId}`);
   }
 
+  getFunctionsByIds(ids: string[]): Observable<FunctionMovieDto[]> {
+    return this.http.post<FunctionMovieDto[]>(`${this.apiUrl}/ids`, ids);
+  }
+
+  getFunctionsByMovie(movieId: string): Observable<FunctionMovieDto[]> {
+    return this.http.get<FunctionMovieDto[]>(`${this.apiUrl}/movie/${movieId}`);
+  }
+  
   createFunction(functionData: FunctionMovieDto): Observable<FunctionMovieDto> {
     return this.http.post<FunctionMovieDto>(this.apiUrl, functionData);
   }

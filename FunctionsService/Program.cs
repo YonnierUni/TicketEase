@@ -1,18 +1,36 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using TicketEase.Common.Events;
+using TicketEase.Service.Functions.Consumers;
 using TicketEase.Service.Functions.DbContexts;
 using TicketEase.Service.Functions.Repositories;
 using TicketEase.Service.Functions.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Enable CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost", policy =>
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod());
+});
+
 // Configure RabbitMQ and MassTransit
 builder.Services.AddMassTransit(config =>
 {
+    config.AddConsumer<TicketsPurchasedEventConsumer>();
+    config.AddConsumer<TicketsCancelledEventConsumer>();
 
     config.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host(builder.Configuration["RabbitMq:Host"]);
+        cfg.ReceiveEndpoint(builder.Configuration["RabbitMq:Queue"], e =>
+        {
+            e.ConfigureConsumer<TicketsPurchasedEventConsumer>(context);
+            e.ConfigureConsumer<TicketsCancelledEventConsumer>(context);
+        });
     });
 });
 
@@ -35,6 +53,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseCors("AllowLocalhost");
 
 using (var scope = app.Services.CreateScope())
 {

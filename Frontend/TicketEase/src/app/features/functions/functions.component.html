@@ -1,1 +1,52 @@
-<p>functions works!</p>
+<div class="movie-functions-container">
+  <h3 *ngIf="movieFunctions.length > 0">Funciones Disponibles</h3>
+
+  <div class="movie-cards">
+    <div
+      class="movie-card"
+      *ngFor="let func of movieFunctions"
+      (click)="selectFunction(func)"
+      [ngClass]="{'selected': selectedFunction?.movieFunctionId === func.movieFunctionId}"
+    >
+      <div class="movie-card-details">
+        <h4>{{ func.room }}</h4>
+        <p><strong>Hora Inicio:</strong> {{ func.startTime | date: 'shortTime' }}</p>
+        <p><strong>Hora Fin:</strong> {{ func.endTime | date: 'shortTime' }}</p>
+        <p>
+          <strong>Asientos Disponibles:</strong> {{ func.availableSeats }} / {{ func.totalSeats }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulario para comprar boletos -->
+  <div *ngIf="selectedFunction" class="ticket-purchase-form">
+    <h4>Compra boletos para la función seleccionada</h4>
+    <div class="function-info">
+      <p><strong>Sala:</strong> {{ selectedFunction.room }}</p>
+      <p><strong>Hora Inicio:</strong> {{ selectedFunction.startTime | date: 'shortTime' }}</p>
+      <p><strong>Hora Fin:</strong> {{ selectedFunction.endTime | date: 'shortTime' }}</p>
+      <p><strong>Asientos Disponibles:</strong> {{ selectedFunction.availableSeats }} / {{ selectedFunction.totalSeats }}</p>
+    </div>
+    <form (submit)="purchaseTickets()">
+      <label for="ticketQuantity">Cantidad de Boletos:</label>
+      <input
+        id="ticketQuantity"
+        type="number"
+        [(ngModel)]="ticketQuantity"
+        name="ticketQuantity"
+        min="1"
+        max="{{ selectedFunction.availableSeats }}"
+        required
+      />
+      <button type="submit" [disabled]="ticketQuantity <= 0 || ticketQuantity > selectedFunction.availableSeats">
+        Comprar
+      </button>
+    </form>
+  </div>
+
+  <!-- Mensaje de funciones no disponibles -->
+  <div *ngIf="movieFunctions.length === 0" class="no-functions">
+    <p>No hay funciones disponibles para esta película.</p>
+  </div>
+</div>

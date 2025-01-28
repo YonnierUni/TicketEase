@@ -23,7 +23,12 @@ namespace TicketEase.Service.Movies.Repositories
             return await _context.Movies
                 .FirstOrDefaultAsync(m => m.MovieId == movieId);
         }
-
+        public async Task<IEnumerable<Movie>> GetMoviesByIdsAsync(List<Guid> movieIds)
+        {
+            return await _context.Movies
+                                 .Where(movie => movieIds.Contains(movie.MovieId))
+                                 .ToListAsync();
+        }
         public async Task AddMovieAsync(Movie movie)
         {
             await _context.Movies.AddAsync(movie);

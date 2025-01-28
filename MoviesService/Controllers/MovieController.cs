@@ -40,7 +40,19 @@ namespace TicketEase.Service.Movies.Controllers
                 return NotFound();
             }
         }
-
+        [HttpPost("getMoviesByIds")]
+        public async Task<ActionResult<IEnumerable<MovieDto>>> GetMoviesByIds([FromBody] List<Guid> movieIds)
+        {
+            try
+            {
+                var movies = await _movieService.GetMoviesByIdsAsync(movieIds);
+                return Ok(movies);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Error al obtener las películas.");
+            }
+        }
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] MovieDto movieDto)
         {
