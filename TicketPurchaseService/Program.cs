@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TicketEase.Service.TicketPurchase.DbContexts;
 using TicketEase.Service.TicketPurchase.Repositories;
 using TicketEase.Service.TicketPurchase.Services;
+using TicketEase.Service.TicketPurchase.Services.Managers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,7 @@ builder.Services.AddMassTransit(config =>
 // Add services to the container.
 builder.Services.AddMassTransitHostedService();
 builder.Services.AddControllers();
+builder.Services.AddScoped<SeatAvailabilityManager>();
 
 builder.Services.AddScoped<IFunctionRepository, FunctionRepository>();
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();

@@ -22,6 +22,7 @@ builder.Services.AddMassTransit(config =>
 {
     config.AddConsumer<TicketsPurchasedEventConsumer>();
     config.AddConsumer<TicketsCancelledEventConsumer>();
+    config.AddConsumer<CheckSeatsAvailabilityConsumer>();
 
     config.UsingRabbitMq((context, cfg) =>
     {
@@ -30,6 +31,8 @@ builder.Services.AddMassTransit(config =>
         {
             e.ConfigureConsumer<TicketsPurchasedEventConsumer>(context);
             e.ConfigureConsumer<TicketsCancelledEventConsumer>(context);
+            e.ConfigureConsumer<CheckSeatsAvailabilityConsumer>(context);
+
         });
     });
 });

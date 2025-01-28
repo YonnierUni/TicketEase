@@ -11,6 +11,8 @@ import { provideHttpClient  } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './features/home/home.component';
+import { LoginComponent } from './shared/components/login/login.component';
+import { UnauthorizedComponent } from './shared/components/unauthorized/unauthorized.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { HomeComponent } from './features/home/home.component';
     FunctionsComponent,
     MoviesComponent,
     HomeComponent,
+    LoginComponent,
+    UnauthorizedComponent,
   ],
   imports: [
     BrowserModule,

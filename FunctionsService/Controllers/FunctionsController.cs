@@ -3,6 +3,7 @@ using TicketEase.Service.Functions.Entities;
 using TicketEase.Service.Functions.Models;
 using TicketEase.Service.Functions.Repositories;
 using TicketEase.Service.Functions.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TicketEase.Service.Functions.Controllers
 {
@@ -124,6 +125,8 @@ namespace TicketEase.Service.Functions.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
+
         public async Task<IActionResult> DeleteFunction(Guid id)
         {
             try

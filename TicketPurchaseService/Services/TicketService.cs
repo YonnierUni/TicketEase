@@ -2,7 +2,10 @@
 using TicketEase.Service.TicketPurchase.Entities;
 using TicketEase.Service.TicketPurchase.Repositories;
 using TicketEase.Service.TicketPurchase.Models;
+using TicketEase.Service.TicketPurchase.Services.Managers;
+
 using TicketEase.Common.Events;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TicketEase.Service.TicketPurchase.Services
 {
@@ -11,12 +14,15 @@ namespace TicketEase.Service.TicketPurchase.Services
         private readonly ITicketRepository _ticketRepository;
         private readonly IFunctionRepository _functionRepository;
         private readonly IPublishEndpoint _publishEndpoint;
+        private readonly SeatAvailabilityManager _seatAvailabilityManager;
 
-        public TicketService(ITicketRepository ticketRepository, IFunctionRepository functionRepository, IPublishEndpoint publishEndpoint)
+        public TicketService(ITicketRepository ticketRepository, IFunctionRepository functionRepository, IPublishEndpoint publishEndpoint, SeatAvailabilityManager seatAvailabilityManager)
         {
             _ticketRepository = ticketRepository;
             _functionRepository = functionRepository;
             _publishEndpoint = publishEndpoint;
+            _seatAvailabilityManager = seatAvailabilityManager;
+
         }
 
         public async Task<IEnumerable<Ticket>> GetAllTicketsAsync()
@@ -71,6 +77,13 @@ namespace TicketEase.Service.TicketPurchase.Services
         public async Task AddMultipleTicketsAsync(IEnumerable<TicketForCreationDto> tickets)
         {
             List<TicketItem> ticketItems = new List<TicketItem>();
+
+            var availableSeats = await _seatAvailabilityManager.CheckSeatsAvailabilityAsync(tickets.FirstOrDefault().FunctionId, tickets.Count());
+
+            if (!availableSeats)
+            {
+                throw new InvalidOperationException("Not enough seats available for the requested tickets.");
+            }
 
             foreach (var ticket in tickets)
             {

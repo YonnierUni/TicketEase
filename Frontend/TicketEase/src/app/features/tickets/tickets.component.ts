@@ -141,6 +141,7 @@ export class TicketsComponent {
     const cancelRequest: CancelTicketsRequest = {
       ticketIds: this.ticketServiceList
         .filter((tickettt) => tickettt.functionId === ticket.functionId)
+        .slice(0, ticketsToCancel)
         .map((tickettt) => tickettt.ticketId),
     };
 

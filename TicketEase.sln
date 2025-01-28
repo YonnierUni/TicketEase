@@ -14,7 +14,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketEase.Service.Function
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketEase.Service.Email", "EmailService\TicketEase.Service.Email.csproj", "{53E5D31E-BFB6-45F7-8401-2D42D573F470}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketEase.Common", "Common\TicketEase.Common.csproj", "{2B93586D-5625-4AAA-8305-E393E741764E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketEase.Common", "Common\TicketEase.Common.csproj", "{2B93586D-5625-4AAA-8305-E393E741764E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication", "Authentication\Authentication.csproj", "{22D144EB-F90E-4F48-8B59-187A8ACCF2B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,10 @@ Global
 		{2B93586D-5625-4AAA-8305-E393E741764E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B93586D-5625-4AAA-8305-E393E741764E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B93586D-5625-4AAA-8305-E393E741764E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22D144EB-F90E-4F48-8B59-187A8ACCF2B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22D144EB-F90E-4F48-8B59-187A8ACCF2B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22D144EB-F90E-4F48-8B59-187A8ACCF2B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22D144EB-F90E-4F48-8B59-187A8ACCF2B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

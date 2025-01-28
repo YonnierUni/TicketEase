@@ -10,10 +10,9 @@ namespace TicketEase.Common.Events
     {
         public List<TicketItem> Tickets { get; set; }
 
-        // Constructor
-        public TicketsPurchasedEvent(List<TicketItem> ticketsItem)
+        public TicketsPurchasedEvent(List<TicketItem> tickets)
         {
-            Tickets = ticketsItem ?? new List<TicketItem>();
+            Tickets = tickets;
         }
     }
 
