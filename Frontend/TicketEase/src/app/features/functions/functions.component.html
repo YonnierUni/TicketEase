@@ -20,7 +20,7 @@
   </div>
 
   <!-- Formulario para comprar boletos -->
-  <div *ngIf="selectedFunction" class="ticket-purchase-form">
+  <div *ngIf="selectedFunction && isLoggedIn"  class="ticket-purchase-form">
     <h4>Compra boletos para la función seleccionada</h4>
     <div class="function-info">
       <p><strong>Sala:</strong> {{ selectedFunction.room }}</p>
@@ -44,7 +44,9 @@
       </button>
     </form>
   </div>
-
+  <div *ngIf="selectedFunction && !isLoggedIn" class="no-functions">
+    <p>Debes iniciar sesion para comprar.</p>
+  </div>
   <!-- Mensaje de funciones no disponibles -->
   <div *ngIf="movieFunctions.length === 0" class="no-functions">
     <p>No hay funciones disponibles para esta película.</p>

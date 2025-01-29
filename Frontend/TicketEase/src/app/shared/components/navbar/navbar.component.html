@@ -1,0 +1,26 @@
+<nav class="navbar">
+  <a routerLink="/home" class="nav-link">Home</a>
+  <a routerLink="/movies" class="nav-link">Movies</a>
+  
+  <!-- Mostrar 'Tickets' solo cuando esté logueado -->
+  <ng-container *ngIf="isLoggedIn">
+    <a routerLink="/tickets" class="nav-link">Tickets</a>
+  </ng-container>
+
+  <ng-container *ngIf="isLoggedIn && userRol === 'admin'">
+    <a routerLink="/movies/create" class="nav-link">Create Movie</a>
+  </ng-container>
+  <ng-container *ngIf="isLoggedIn  && userRol === 'admin'">
+    <a routerLink="/functions/create" class="nav-link">Create Functions</a>
+  </ng-container>
+  
+  <!-- Mostrar usuario logueado o no -->
+  <ng-container *ngIf="isLoggedIn; else loggedOut">
+    <span class="nav-link-static">Welcome, {{ userRol }}</span>
+    <button (click)="logout()" class="btn btn-link">Logout</button>
+  </ng-container>
+
+  <ng-template #loggedOut>
+    <a routerLink="/login" class="nav-link">Login</a>
+  </ng-template>
+</nav>

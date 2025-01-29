@@ -62,7 +62,7 @@ namespace TicketEase.Service.TicketPurchase.Services
 
             await _ticketRepository.AddAsync(newTicket);
 
-            // Crear el evento con los datos correspondientes
+            /* Crear el evento con los datos correspondientes
             var ticketAddedEvent = new TicketAddedEvent(
                 newTicket.TicketId,
                 newTicket.FunctionId,
@@ -71,7 +71,7 @@ namespace TicketEase.Service.TicketPurchase.Services
             );
 
             await _publishEndpoint.Publish(ticketAddedEvent);
-
+            */
             return newTicket;
         }
         public async Task AddMultipleTicketsAsync(IEnumerable<TicketForCreationDto> tickets)
@@ -129,6 +129,7 @@ namespace TicketEase.Service.TicketPurchase.Services
             }
 
             await _ticketRepository.UpdateAsync(ticket);
+            /*
             var TicketUpdated = new TicketUpdatedEvent(
                 ticket.TicketId,
                 ticket.FunctionId,
@@ -136,6 +137,7 @@ namespace TicketEase.Service.TicketPurchase.Services
                 ticket.UserName
             );
             await _publishEndpoint.Publish(TicketUpdated);
+            */
         }
 
         public async Task DeleteTicketAsync(Guid ticketId)
@@ -147,7 +149,7 @@ namespace TicketEase.Service.TicketPurchase.Services
             }
 
             await _ticketRepository.DeleteAsync(ticketId);
-            await _publishEndpoint.Publish(new TicketDeletedEvent(ticketId));
+            //await _publishEndpoint.Publish(new TicketDeletedEvent(ticketId));
         }
         public async Task DeleteMultipleTicketsAsync(IEnumerable<Guid> ticketIds)
         {

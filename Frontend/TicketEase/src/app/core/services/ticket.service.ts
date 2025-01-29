@@ -1,17 +1,23 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../src/environments/environment';
-import { CancelTicketsRequest, TicketDto, TicketForCreationDto, TicketForUpdateDto } from '../models/ticket.model';
+import {
+  CancelTicketsRequest,
+  TicketDto,
+  TicketForCreationDto,
+  TicketForUpdateDto,
+} from '../models/ticket.model';
+import { FunctionDto, FunctionForCreationDto } from '../models/functionMovie.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TicketService {
-
   private apiUrl = `${environment.apiBaseUrl}:7134/api/tickets`;
+  private apiUrlFunctions = `${environment.apiBaseUrl}:7134/api/functions`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getTickets(): Observable<TicketDto[]> {
     return this.http.get<TicketDto[]>(this.apiUrl);
@@ -24,12 +30,20 @@ export class TicketService {
   createTicket(ticket: TicketForCreationDto): Observable<TicketDto> {
     return this.http.post<TicketDto>(`${this.apiUrl}/addTicket`, ticket);
   }
-  
-  createMultipleTickets(tickets: TicketForCreationDto[]): Observable<TicketDto[]> {
-    return this.http.post<TicketDto[]>(`${this.apiUrl}/addMultipleTickets`, tickets);
+
+  createMultipleTickets(
+    tickets: TicketForCreationDto[]
+  ): Observable<TicketDto[]> {
+    return this.http.post<TicketDto[]>(
+      `${this.apiUrl}/addMultipleTickets`,
+      tickets
+    );
   }
-  
-  updateTicket(ticketId: string, ticket: TicketForUpdateDto): Observable<TicketDto> {
+
+  updateTicket(
+    ticketId: string,
+    ticket: TicketForUpdateDto
+  ): Observable<TicketDto> {
     return this.http.put<TicketDto>(`${this.apiUrl}/${ticketId}`, ticket);
   }
 
@@ -38,7 +52,12 @@ export class TicketService {
   }
 
   cancelTickets(cancelRequest: CancelTicketsRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}/cancelTickets`, cancelRequest);
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}'); // Si currentUser está guardado en localStorage
+    const token = currentUser.token;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post(`${this.apiUrl}/cancelTickets`, cancelRequest, {
+      headers,
+    });
   }
 
   getTicketsByFunctionId(functionId: string): Observable<TicketDto[]> {
@@ -47,5 +66,9 @@ export class TicketService {
 
   getTicketsByUserName(userName: string): Observable<TicketDto[]> {
     return this.http.get<TicketDto[]>(`${this.apiUrl}/user/${userName}`);
+  }
+
+  createFunction(functionDto: FunctionForCreationDto): Observable<FunctionDto> {
+    return this.http.post<FunctionDto>(`${this.apiUrlFunctions}`, functionDto);
   }
 }

@@ -53,8 +53,8 @@ namespace TicketEase.Service.TicketPurchase.Services
             var function = _mapper.Map<Function>(functionForCreationDto);
             await _functionRepository.AddAsync(function);
 
-            var eventMessage = new { EventType = "Ticket-created", FunctionId = function.FunctionId };
-            await _publishEndpoint.Publish(eventMessage);
+            //var eventMessage = new { EventType = "Ticket-created", FunctionId = function.FunctionId };
+            //await _publishEndpoint.Publish(eventMessage);
 
             return _mapper.Map<FunctionDto>(function);
         }

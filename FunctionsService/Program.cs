@@ -27,12 +27,20 @@ builder.Services.AddMassTransit(config =>
     config.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host(builder.Configuration["RabbitMq:Host"]);
-        cfg.ReceiveEndpoint(builder.Configuration["RabbitMq:Queue"], e =>
+        // Configure receive endpoints with specific queues for each consumer
+        cfg.ReceiveEndpoint(builder.Configuration["RabbitMq:Queues:ticket-purchased-functions-queue"], e =>
         {
             e.ConfigureConsumer<TicketsPurchasedEventConsumer>(context);
-            e.ConfigureConsumer<TicketsCancelledEventConsumer>(context);
-            e.ConfigureConsumer<CheckSeatsAvailabilityConsumer>(context);
+        });
 
+        cfg.ReceiveEndpoint(builder.Configuration["RabbitMq:Queues:ticket-cancelled-queue"], e =>
+        {
+            e.ConfigureConsumer<TicketsCancelledEventConsumer>(context);
+        });
+
+        cfg.ReceiveEndpoint(builder.Configuration["RabbitMq:Queues:check-seats-availability-queue"], e =>
+        {
+            e.ConfigureConsumer<CheckSeatsAvailabilityConsumer>(context);
         });
     });
 });

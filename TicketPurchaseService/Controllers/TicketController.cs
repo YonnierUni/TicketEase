@@ -4,6 +4,8 @@ using TicketEase.Service.TicketPurchase.Models;
 using TicketEase.Service.TicketPurchase.Repositories;
 using AutoMapper;
 using TicketEase.Service.TicketPurchase.Services;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TicketEase.Service.TicketPurchase.Controllers
 {
@@ -125,10 +127,18 @@ namespace TicketEase.Service.TicketPurchase.Controllers
             return NoContent();
         }
         [HttpPost("cancelTickets")]
+        [Authorize(Roles = "client")]
         public async Task<ActionResult> CancelTickets([FromBody] CancelTicketsDto cancelTicketsDto)
         {
             if (cancelTicketsDto == null || cancelTicketsDto.TicketIds == null || !cancelTicketsDto.TicketIds.Any())
                 return BadRequest(new { message = "No valid ticket information provided." });
+            
+            var userRole = User?.FindFirst(ClaimTypes.Role)?.Value;
+
+            if (userRole == null || (userRole != "client"))
+            {
+                return Unauthorized(new { message = "You do not have permission to cancel tickets." });
+            }
 
             // Llamar al servicio para eliminar los tickets
             await _ticketService.DeleteMultipleTicketsAsync(cancelTicketsDto.TicketIds);

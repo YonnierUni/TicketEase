@@ -1,0 +1,49 @@
+.navbar {
+    background: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .nav-link {
+    text-decoration: none;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    font-weight: 500;
+    margin: 0 20px;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    color: #007bff;
+    transform: scale(1.05);
+  }
+  
+  
+  .nav-link-static {
+    text-decoration: none;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    font-weight: 500;
+    margin: 0 20px;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+
+  /* Estilos para el botón de logout */
+.btn-link {
+  background: none;
+  border: none;
+  color: #007bff;  /* Color para el texto del botón */
+  font-size: 16px;
+  font-weight: 500;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;  /* Para efecto suave de color */
+}
+
+.btn-link:hover {
+  color: #0056b3;  /* Cambio de color cuando se pasa el cursor */
+  transform: scale(1.05);  /* Efecto de escala al pasar el mouse */
+}
