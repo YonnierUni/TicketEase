@@ -25,6 +25,7 @@ jobs:
 
       - name: Build with dotnet
         run: |
+          ls
           cd TicketEase/TicketPurchaseService
           dotnet build --configuration Release
 
