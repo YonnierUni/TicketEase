@@ -32,7 +32,7 @@ jobs:
       - name: dotnet publish
         run: |
           cd TicketPurchaseService
-          dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+          dotnet publish -c Release -o ${{env.DOTNET_ROOT}}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
