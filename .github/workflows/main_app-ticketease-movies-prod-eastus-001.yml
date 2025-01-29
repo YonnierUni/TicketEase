@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - app-ticketease-ticket-prod-eastus-001
+name: Build and deploy ASP.Net Core app to Azure Web App - app-ticketease-movies-prod-eastus-001
 
 on:
   push:
@@ -25,13 +25,12 @@ jobs:
 
       - name: Build with dotnet
         run: |
-          ls
-          cd TicketPurchaseService
+          cd MoviesService
           dotnet build --configuration Release
 
       - name: dotnet publish
         run: |
-          cd TicketPurchaseService
+          cd MoviesService
           dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
@@ -59,15 +58,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B7B8BC785ACB4039855979105BF83301 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_029D7557E420479D987E88DD16ABA1E3 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_EEC4552F575A45CE9FE3CA85C36C2E02 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_E50B79B8FBAA4B24A16E0638A5BEB130 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_7066E88265F34375940718A73A3A3EF0 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_EF232018B6814830A756A721EAB3EC47 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'app-ticketease-ticket-prod-eastus-001'
+          app-name: 'app-ticketease-movies-prod-eastus-001'
           slot-name: 'Production'
           package: .
           
