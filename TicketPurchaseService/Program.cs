@@ -66,7 +66,7 @@ builder.Services.AddScoped<SeatAvailabilityManager>();
 builder.Services.AddScoped<IFunctionRepository, FunctionRepository>();
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 builder.Services.AddScoped<IFunctionService, FunctionService>();
-builder.Services.AddScoped<ITicketService,TicketService>();
+builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Add DbContext to the container
@@ -89,11 +89,10 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.UseHttpsRedirection();
 
