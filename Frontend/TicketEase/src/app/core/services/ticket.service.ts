@@ -14,8 +14,10 @@ import { FunctionDto, FunctionForCreationDto } from '../models/functionMovie.mod
   providedIn: 'root',
 })
 export class TicketService {
-  private apiUrl = `${environment.apiBaseUrl}:7134/api/tickets`;
-  private apiUrlFunctions = `${environment.apiBaseUrl}:7134/api/functions`;
+  //private apiUrl = `${environment.apiBaseUrl}:7134/api/tickets`;
+  //private apiUrlFunctions = `${environment.apiBaseUrl}:7134/api/functions`;
+  private apiUrl = `${environment.apiBaseUrl}/ticketpurchase/api/tickets`;
+  private apiUrlFunctions = `${environment.apiBaseUrl}/ticketpurchase/api/functions`;
 
   constructor(private http: HttpClient) {}
 

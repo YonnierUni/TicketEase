@@ -9,7 +9,8 @@ import { FunctionMovieDto } from '../models/functionMovie.model';
 })
 export class FunctionService {
 
-  private apiUrl = `${environment.apiBaseUrl}:7014/api/functions`;
+  //private apiUrl = `${environment.apiBaseUrl}:7014/api/functions`;
+  private apiUrl = `${environment.apiBaseUrl}/functions/api/functions`;
 
   constructor(private http: HttpClient) { }
 

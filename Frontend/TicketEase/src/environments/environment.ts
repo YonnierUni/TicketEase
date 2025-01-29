@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://mi-api.com',
-  email: 'produccion-email@example.com',
+  apiBaseUrl: 'https://apim-ticketease-prod-eastus-001.azure-api.net',
+  email: 'uniyonnier@gmail.com',
 };

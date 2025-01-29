@@ -9,7 +9,8 @@ import { MovieDto } from '../models/movie.model';
 })
 export class MovieService {
 
-  private apiUrl = `${environment.apiBaseUrl}:7231/api/movies`;
+  //private apiUrl = `${environment.apiBaseUrl}:7231/api/movies`;
+  private apiUrl = `${environment.apiBaseUrl}/movies/api/movies`;
 
   constructor(private http: HttpClient) { }
 
