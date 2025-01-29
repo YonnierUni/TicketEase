@@ -24,15 +24,10 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Build with dotnet
-        run: |
-          ls
-          cd TicketPurchaseService
-          dotnet build --configuration Release
+        run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: |
-          cd TicketPurchaseService
-          dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -46,30 +41,18 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
-
+    
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-          path: ${{github.workspace}}/myapp
       
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B7B8BC785ACB4039855979105BF83301 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_029D7557E420479D987E88DD16ABA1E3 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_EEC4552F575A45CE9FE3CA85C36C2E02 }}
-
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'app-ticketease-ticket-prod-eastus-001'
-          slot-name: 'Production'          
-          path: ${{github.workspace}}/myapp
-
-          
+          slot-name: 'Production'
+          package: .
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E3ABD5D5CB764A27AD14A5D9F35520C9 }}
