@@ -126,6 +126,7 @@ namespace TicketEase.Service.TicketPurchase.Controllers
 
             return NoContent();
         }
+
         [HttpPost("cancelTickets")]
         [Authorize(Roles = "client")]
         public async Task<ActionResult> CancelTickets([FromBody] CancelTicketsDto cancelTicketsDto)
