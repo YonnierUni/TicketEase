@@ -32,13 +32,13 @@ jobs:
       - name: dotnet publish
         run: |
           cd TicketPurchaseService
-          dotnet publish -c Release -o ${{env.DOTNET_ROOT}}
+          dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
     runs-on: ubuntu-latest
@@ -69,5 +69,5 @@ jobs:
         with:
           app-name: 'app-ticketease-ticket-prod-eastus-001'
           slot-name: 'Production'          
-
+          package: .
           
