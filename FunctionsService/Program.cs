@@ -45,6 +45,7 @@ builder.Services.AddMassTransit(config =>
     });
 });
 
+var RabbitMqHost = builder.Configuration["RabbitMq:Host"];
 
 // Add services to the container.
 builder.Services.AddMassTransitHostedService();
@@ -58,6 +59,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<FunctionsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+var DefaultConnection = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
