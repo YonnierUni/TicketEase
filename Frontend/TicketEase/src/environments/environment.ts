@@ -1,6 +1,5 @@
 export const environment = {
-    production: false,
-    apiBaseUrl: 'https://localhost',
-    email:"uniyonnier@gmail.com"
-  };
-  
+  production: true,
+  apiBaseUrl: 'https://mi-api.com',
+  email: 'produccion-email@example.com',
+};
