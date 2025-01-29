@@ -26,12 +26,12 @@ jobs:
       - name: Build with dotnet
         run: |
           ls
-          cd TicketEase/TicketPurchaseService
+          cd TicketPurchaseService
           dotnet build --configuration Release
 
       - name: dotnet publish
         run: |
-          cd TicketEase/TicketPurchaseService
+          cd TicketPurchaseService
           dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
