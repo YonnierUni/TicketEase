@@ -55,4 +55,4 @@ jobs:
           app-name: 'app-ticketease-auth-prod-eastus-001'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3182DC7B82A24259AF07511225CC5FB1 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_81BA96EE93394BF48399B7EC992A1832 }}
